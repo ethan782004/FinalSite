@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up Success{% endblock %}
+
+{% block contents %}
+<div class="container mt-5">
+    <h2>サインアップが完了しました</h2>
+    <p>アカウントの作成が完了しました。ログインページへ進んでください。</p>
+
+    <a href="{% url 'accounts:login' %}" class="btn btn-primary mt-3">
+        ログイン画面へ
+    </a>
+</div>
+{% endblock %}
