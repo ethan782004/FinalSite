@@ -44,17 +44,21 @@ ROOT_URLCONF = 'testproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],   # ★ 追加
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-    'django.template.context_processors.request',
-    'django.contrib.auth.context_processors.auth',  # ← これが必須
-    'django.contrib.messages.context_processors.messages',
-],
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
+                'django.template.context_processors.i18n',
+            ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'testproject.wsgi.application'
 
@@ -91,3 +95,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 # ログアウト後のリダイレクト先
 LOGOUT_REDIRECT_URL = '/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'

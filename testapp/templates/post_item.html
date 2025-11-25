@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}商品一覧 | Business Casual{% endblock %}
+
+{% block contents %}
+<section class="page-section" id="products">
+  <div class="container">
+    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-5">出品商品一覧</h2>
+
+    <div class="row">
+      {% for item in object_list %}
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          {% if item.image1 %}
+          <img src="{{ item.image1.url }}" class="card-img-top" alt="{{ item.title }}">
+          {% else %}
+          <img src="https://via.placeholder.com/600x400?text=No+Image" class="card-img-top" alt="No image">
+          {% endif %}
+
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title|default:"商品名不明" }}</h5>
+            <p class="card-text">{{ item.comment|default:"商品の説明はありません。"|truncatechars:120 }}</p>
+            <p class="fs-5 fw-semibold text-dark">
+              {% if item.price %}
+                ¥{{ item.price|intcomma }}
+              {% else %}
+                価格未定
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted mt-3 text-center">まだ商品が登録されていません。</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

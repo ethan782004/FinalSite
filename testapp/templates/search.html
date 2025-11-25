@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}商品検索 | Business Casual{% endblock %}
+
+{% block contents %}
+<div class="container mt-4">
+
+  <!-- 🔍 検索フォーム -->
+  <form method="get" action="{% url 'testapp:search' %}">
+      <input type="text" name="q" value="{{ keyword }}" placeholder="商品名で検索" class="form-control">
+      <button type="submit" class="btn btn-primary mt-2">検索</button>
+  </form>
+
+  <hr>
+
+  <!-- 結果表示 -->
+  <div class="row">
+      {% for product in products %}
+      <div class="col-md-4 mt-3">
+          <div class="card">
+              {% if product.image %}
+              <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+              {% else %}
+              <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No image">
+              {% endif %}
+
+              <div class="card-body">
+                  <h5 class="card-title">{{ product.name|default:"商品名不明" }}</h5>
+                  <p class="card-text">
+                      {% if product.price %}
+                      ¥{{ product.price|intcomma }}
+                      {% else %}
+                      価格未定
+                      {% endif %}
+                  </p>
+              </div>
+          </div>
+      </div>
+      {% empty %}
+      <p class="text-muted mt-3">商品が見つかりませんでした。</p>
+      {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

@@ -1,17 +1,9 @@
-{% extends 'base.html' %}
-{% load humanize %} 
-{% block title %}商品一覧 | Business Casual{% endblock %}
+{% load humanize %}
 
-{% block content %}
-<!-- セクションタイトル -->
 <section class="page-section" id="products">
   <div class="container">
-    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-5">出品商品一覧</h2>
-
-    <!-- 商品リスト -->
     {% for item in object_list %}
     <div class="row mb-5 align-items-center">
-      <!-- 左側に画像 -->
       <div class="col-md-6">
         {% if item.image %}
         <img src="{{ item.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ item.title }}">
@@ -19,27 +11,18 @@
         <img src="https://via.placeholder.com/600x400?text=No+Image" class="img-fluid rounded shadow-sm" alt="No image">
         {% endif %}
       </div>
-
-      <!-- 右側に内容 -->
       <div class="col-md-6">
         <h3 class="fw-bold">{{ item.title|default:"商品名不明" }}</h3>
         <p class="text-muted">{{ item.description|default:"商品の説明はありません。"|truncatechars:120 }}</p>
-
         <p class="fs-5 fw-semibold text-dark">
-          {% if item.price %}
-          ¥{{ item.price|intcomma }}
-          {% else %}
-          価格未定
-          {% endif %}
+          {% if item.price %}¥{{ item.price|intcomma }}{% else %}価格未定{% endif %}
         </p>
-
         <div class="mt-3">
-          <a href="{% url 'yourapp:detail' item.pk %}" class="btn btn-outline-dark me-2">詳細を見る</a>
-          <a href="{% url 'yourapp:edit' item.pk %}" class="btn btn-outline-secondary">編集</a>
+          <a href="#" class="btn btn-outline-dark me-2">詳細を見る</a>
+          <a href="#" class="btn btn-outline-secondary">編集</a>
         </div>
       </div>
     </div>
-
     <hr class="my-5">
     {% empty %}
     <div class="text-center py-5">
@@ -48,4 +31,3 @@
     {% endfor %}
   </div>
 </section>
-{% endblock %}

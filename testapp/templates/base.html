@@ -36,27 +36,28 @@
         <!-- 左側メニュー -->
         <ul class="navbar-nav me-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'testapp:index' %}">ホーム</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">検索</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'testapp:search' %}">検索</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">サポート</a></li>
+          {% if user.is_authenticated %}
           <li class="nav-item"><a class="nav-link" href="#">注文履歴</a></li>
+          {% endif %}
         </ul>
 
         <!-- 右側アカウントドロップダウン -->
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
-              アカウント
+      {% if user.is_authenticated %}
+  <li class="nav-item">
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">ログアウト</button>
+    </form>
+  </li>
+{% else %}
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{% url 'accounts:login' %}">ログイン</a>
+  </li>
+{% endif %}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-              {% if user.is_authenticated %}
-                <li><span class="dropdown-item-text">ようこそ {{ user.username }} さん</span></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">ログアウト</a></li>
-              {% else %}
-                <li><a class="dropdown-item" href="{% url 'accounts:login' %}">ログイン</a></li>
-                <li><a class="dropdown-item" href="{% url 'accounts:signup' %}">会員登録</a></li>
-              {% endif %}
-            </ul>
-          </li>
+            
         </ul>
       </div>
     </div>
