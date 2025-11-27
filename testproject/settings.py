@@ -92,10 +92,18 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ログイン後のリダイレクト先
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/home/'
+
 # ログアウト後のリダイレクト先
 LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 MEDIA_URL = '/media/'
+
+DEFAULT_FROM_EMAIL = 'spr2540092@stu.o-hara.ac.jp'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'spr2540092@stu.o-hara.ac.jp'
+EMAIL_HOST_PASSWORD = '0406Masa'
+EMAIL_USE_TLS = True
+ 

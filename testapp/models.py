@@ -19,11 +19,7 @@ class Category(models.Model):
         return self.title
 
 class ItemPost(models.Model):
-    '''投稿されたデータを管理するモデル
-    '''
-    # CustomUserモデル(のuser_id)とPhotoPostモデルを
-    # 1対多の関係で結び付ける
-    # CustomUserが親でPhotoPostが子の関係となる
+
     user = models.ForeignKey(
         CustomUser,
         # フィールドのタイトル
@@ -31,9 +27,7 @@ class ItemPost(models.Model):
         # ユーザーを削除する場合はそのユーザーの投稿データもすべて削除する
         on_delete=models.CASCADE
         )
-    # Categoryモデル(のtitle)とPhotoPostモデルを
-    # 1対多の関係で結び付ける
-    # Categoryが親でPhotoPostが子の関係となる
+
     category = models.ForeignKey(
         Category,
         # フィールドのタイトル
@@ -58,15 +52,17 @@ class ItemPost(models.Model):
         )
     # イメージのフィールド2
     image2 = models.ImageField(
-        verbose_name='イメージ2',# フィールドのタイトル
-        upload_to = 'photos',  # MEDIA_ROOT以下のphotosにファイルを保存
-        blank=True,            # フィールド値の設定は必須でない
-        null=True              # データベースにnullが保存されることを許容
+        verbose_name='イメージ2',
+        upload_to = 'photos', 
+        blank=True,            
+        null=True              
         )
+    
+    price = models.IntegerField(verbose_name='価格', blank=True, null=True)
     # 投稿日時のフィールド
     posted_at = models.DateTimeField(
-        verbose_name='投稿日時', # フィールドのタイトル
-        auto_now_add=True       # 日時を自動追加
+        verbose_name='投稿日時', 
+        auto_now_add=True       
         )
     
     def __str__(self):

@@ -1,46 +1,74 @@
 {% extends 'base.html' %}
 {% load humanize %}
 
-{% block title %}商品検索 | Business Casual{% endblock %}
+{% block title %}商品検索結果 | Business Casual{% endblock %}
 
 {% block contents %}
-<div class="container mt-4">
+<section class="page-section" id="products">
+  <div class="container">
+    <h2 class="text-center mb-4">検索結果</h2>
 
-  <!-- 🔍 検索フォーム -->
-  <form method="get" action="{% url 'testapp:search' %}">
-      <input type="text" name="q" value="{{ keyword }}" placeholder="商品名で検索" class="form-control">
-      <button type="submit" class="btn btn-primary mt-2">検索</button>
-  </form>
+    <!-- 🔍 検索フォーム -->
+    <form method="get" action="{% url 'testapp:search' %}" class="mb-4">
 
-  <hr>
+      <!-- 左寄せ用のコンテナ -->
+      <div class="d-flex flex-column align-items-start">
 
-  <!-- 結果表示 -->
-  <div class="row">
-      {% for product in products %}
-      <div class="col-md-4 mt-3">
-          <div class="card">
-              {% if product.image %}
-              <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-              {% else %}
-              <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top" alt="No image">
-              {% endif %}
+        <!-- 商品名検索ボックス -->
+        <div class="input-group mb-2" style="max-width:400px;">
+          <input type="text" name="q" value="{{ keyword }}" class="form-control" placeholder="商品名で検索">
+        </div>
 
-              <div class="card-body">
-                  <h5 class="card-title">{{ product.name|default:"商品名不明" }}</h5>
-                  <p class="card-text">
-                      {% if product.price %}
-                      ¥{{ product.price|intcomma }}
-                      {% else %}
-                      価格未定
-                      {% endif %}
-                  </p>
-              </div>
+        <!-- カテゴリ選択 -->
+        <div class="mb-2" style="max-width:200px;">
+          <select name="category" class="form-select w-100">
+            <option value="">すべてのカテゴリ</option>
+            {% for cat in categories %}
+              <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == selected_category %}selected{% endif %}>
+                {{ cat.title }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- 検索ボタン -->
+        <button type="submit" class="btn btn-primary">検索</button>
+
+      </div>
+    </form>
+
+    <!-- 商品一覧 -->
+    <div class="row">
+      {% for item in products %}
+      <div class="col-md-6 mb-4">
+        <a href="{% url 'testapp:item_detail' item.pk %}" style="text-decoration:none; color:inherit;">
+          <div class="card shadow-sm">
+
+            {% if item.image1 %}
+              <img src="{{ item.image1.url }}" class="card-img-top img-fluid"
+                   style="width:100%; height:200px; object-fit:contain;" alt="{{ item.title }}">
+            {% else %}
+              <img src="https://via.placeholder.com/600x400?text=No+Image"
+                   class="card-img-top img-fluid"
+                   style="width:100%; height:200px; object-fit:contain;" alt="No image">
+            {% endif %}
+
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">{{ item.comment|default:"商品の説明はありません。"|truncatechars:120 }}</p>
+              <p class="fs-5 fw-semibold text-dark">
+                {% if item.price %}¥{{ item.price|intcomma }}{% else %}価格未定{% endif %}
+              </p>
+            </div>
+
           </div>
+        </a>
       </div>
       {% empty %}
-      <p class="text-muted mt-3">商品が見つかりませんでした。</p>
+        <p class="text-muted mt-3 text-center">商品が見つかりませんでした。</p>
       {% endfor %}
-  </div>
+    </div>
 
-</div>
+  </div>
+</section>
 {% endblock %}

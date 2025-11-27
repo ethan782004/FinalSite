@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}ログイン前トップ{% endblock %}
+
+{% block contents %}
+<div class="text-center mt-5">
+  <h1>ようこそ</h1>
+  <p>ログインしてホームページに進むには下のボタンを押してください。</p>
+  <a href="{% url 'login' %}" class="btn btn-primary">ログイン</a>
+</div>
+{% endblock %}

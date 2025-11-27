@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+ 
+{% load static %}
+<!-- ヘッダー情報のページタイトルは
+  ベーステンプレートを利用するページで設定する -->
+{% block title %}Business Casual{% endblock %}
+ 
+ 
+  <!-- Page Header -->
+  <!-- ページのヘッダーはベーステンプレートを利用するページで設定する -->
+  {% block extra_head %}
+  <!-- ページのヘッダーを設定(ドキュメントの構造に合わせてインデント) -->
+  <!-- ヘッダーの背景イメージのリンク先url()の引数をstaticタグに書き換え -->
+  <header class="masthead"
+          style="background-image: url({% static 'assets/img/contact-bg.jpg' %})">
+    <div class="container position-relative px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="page-heading">
+            <!-- ヘッダーの大見出し(タイトル)を変更 -->
+            <header class="masthead mt-3" …>
+  <h1 class="header-text">Contact Me</h1>
+  <span class="subheading">Have questions? I have answers.</span>
+  <style>
+  .header-text {
+    margin-top: 80px;       /* 下にずらす（必要に応じて） */
+    margin-bottom: 3px;     /* 下の余白を小さくして下のテキストを近づける */
+    line-height: 1.1;        /* 行間を少し狭く */
+    font-size: 3rem;         /* タイトルを大きく（必要に応じて） */
+  }
+ 
+  .subheading {
+    margin-top: 0;           /* 上マージンをリセットして近づける */
+    line-height: 1.2;
+    font-size: 1.25rem;
+    display: block;          /* ブロック表示にするとマージンが効きやすい */
+  }
+</style>
+</header>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% endblock %}
+ 
+  <!-- Main Content -->
+  <!-- ページのコンテンツはベーステンプレートを使用するページで設定する -->
+  {% block contents %}
+  <main class="mb-4">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <!-- 本文を変更 -->
+          <strong class="intro-text">
+  連絡を取りたいですか？ 以下のフォームに記入してメッセージを送信してください。できるだけ早くご連絡します。
+</strong>
+ 
+<style>
+  .intro-text {
+    display: block;        
+    margin-top: -80px;      
+    line-height: 1.3;       
+  }
+</style>
+         
+          <!-- フォームの送信が成功したときのメッセージを表示するためのコード -->
+          <!-- requestにmessagesオブジェクトが存在している場合 -->
+          {% if messages %}
+          <!-- 箇条書きのスタイルを無効にした<ul>タグでメッセージを出力 -->
+          <ul class="list-unstyled" style="list-style: none;">
+            <!-- forでmessagesを取り出す -->
+            {% for message in messages %}
+            <!-- message.tagsが存在する場合はclass属性にCSSのクラスを設定 -->
+            <li {%if message.tags %} class="{{ message.tags }}" {% endif %}>
+              <!-- messageに格納されているメッセージを出力 -->
+              {{ message }}
+            </li>
+           {% endfor %}
+          </ul>
+          {% endif %}
+ 
+          <!-- 以下、フォームを表示するためのコード -->
+          <div class="my-5">
+            <!-- method="post"を追加 -->
+            <form method="post" >
+              <!-- CSRF対策のためのテンプレートタグ -->
+              {% csrf_token %}
+              <!-- formで定義されているフィールドの値を取り出す -->
+              {% for field in form %}
+                <div class="form-floating">
+                  <div class="form-group floating-label-form-group controls">
+                    <!-- <label>タグを生成-->
+                    {{ field.label_tag}}
+                    <!-- フィールドの設定値を<input>タグで出力-->
+                    {{ field }}
+                    <!-- <p>を追加-->
+                    <p class="help-block text-danger"></p>
+                    <!-- <input>タグを削除 -->
+                    <!-- <label>～</label>タグを削除 -->
+                  </div>
+                </div>
+              {% endfor %}
+              <!-- forループここまで -->
+             
+              <!-- <div class="control-group">～</div>までの3ブロックを削除 -->
+     
+              <br>
+              <!-- 送信用のボタン -->
+              <button type="submit"
+                      class="btn btn-primary"
+                      id="sendMessageButton">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <hr>
+  </main>
+  {% endblock %}
+ 
+  <!-- Footer以下を削除 -->
+ 
